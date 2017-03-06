@@ -1,0 +1,53 @@
+2017/03/06-14:30:39.662 cc Recovering log #12
+2017/03/06-14:30:39.682 cc Level-0 table #15: started
+2017/03/06-14:30:39.779 cc Level-0 table #15: 733466 bytes OK
+2017/03/06-14:30:39.906 cc Delete type=0 #12
+2017/03/06-14:30:39.931 cc Delete type=3 #2
+2017/03/06-14:30:40.017 22a0 Compacting 4@0 + 1@1 files
+2017/03/06-14:30:40.281 22a0 Generated table #17: 5376 keys, 2153997 bytes
+2017/03/06-14:30:40.544 22a0 Generated table #18: 4209 keys, 2166940 bytes
+2017/03/06-14:30:40.656 22a0 Generated table #19: 2885 keys, 2168735 bytes
+2017/03/06-14:30:40.756 22a0 Generated table #20: 3271 keys, 2166885 bytes
+2017/03/06-14:30:40.855 22a0 Generated table #21: 3349 keys, 2159246 bytes
+2017/03/06-14:30:40.945 22a0 Generated table #22: 2528 keys, 2171973 bytes
+2017/03/06-14:30:41.056 22a0 Generated table #23: 244 keys, 2594842 bytes
+2017/03/06-14:30:41.085 22a0 Generated table #24: 135 keys, 56564 bytes
+2017/03/06-14:30:41.085 22a0 Compacted 4@0 + 1@1 files => 15639182 bytes
+2017/03/06-14:30:41.122 22a0 Delete type=2 #7
+2017/03/06-14:30:41.125 22a0 Delete type=2 #9
+2017/03/06-14:30:41.137 22a0 Delete type=2 #11
+2017/03/06-14:30:41.137 22a0 Delete type=2 #13
+2017/03/06-14:30:41.152 22a0 Delete type=2 #15
+2017/03/06-14:30:41.153 22a0 compacted to: files[ 0 8 1 0 0 0 0 ]
+2017/03/06-14:30:41.153 22a0 Expanding@1 1+1 to 8+1
+2017/03/06-14:30:41.153 22a0 Compacting 8@1 + 1@2 files
+2017/03/06-14:30:41.284 22a0 Generated table #25: 5384 keys, 2156990 bytes
+2017/03/06-14:30:41.350 22a0 Generated table #26: 4920 keys, 2154235 bytes
+2017/03/06-14:30:41.406 22a0 Generated table #27: 4315 keys, 2161563 bytes
+2017/03/06-14:30:41.472 22a0 Generated table #28: 3371 keys, 2167529 bytes
+2017/03/06-14:30:41.522 22a0 Generated table #29: 2915 keys, 2166880 bytes
+2017/03/06-14:30:41.578 22a0 Generated table #30: 3425 keys, 2168425 bytes
+2017/03/06-14:30:41.662 22a0 Generated table #31: 3193 keys, 2160950 bytes
+2017/03/06-14:30:41.714 22a0 Generated table #32: 2349 keys, 2171960 bytes
+2017/03/06-14:30:41.815 22a0 Generated table #33: 4 keys, 2363281 bytes
+2017/03/06-14:30:41.842 22a0 Generated table #34: 136 keys, 56583 bytes
+2017/03/06-14:30:41.842 22a0 Compacted 8@1 + 1@2 files => 19728396 bytes
+2017/03/06-14:30:41.880 22a0 Delete type=2 #5
+2017/03/06-14:30:41.881 22a0 Delete type=2 #17
+2017/03/06-14:30:41.881 22a0 Delete type=2 #18
+2017/03/06-14:30:41.881 22a0 Delete type=2 #19
+2017/03/06-14:30:41.882 22a0 Delete type=2 #20
+2017/03/06-14:30:41.882 22a0 Delete type=2 #21
+2017/03/06-14:30:41.882 22a0 Delete type=2 #22
+2017/03/06-14:30:41.882 22a0 Delete type=2 #23
+2017/03/06-14:30:41.883 22a0 Delete type=2 #24
+2017/03/06-14:30:41.883 22a0 compacted to: files[ 0 0 10 0 0 0 0 ]
+2017/03/06-15:38:32.685 22a0 Level-0 table #36: started
+2017/03/06-15:38:32.950 22a0 Level-0 table #36: 4170263 bytes OK
+2017/03/06-15:38:32.978 22a0 Delete type=0 #16
+2017/03/06-15:55:34.147 22a0 Level-0 table #38: started
+2017/03/06-15:55:34.317 22a0 Level-0 table #38: 3925787 bytes OK
+2017/03/06-15:55:34.347 22a0 Delete type=0 #35
+2017/03/06-16:27:56.644 22a0 Level-0 table #40: started
+2017/03/06-16:27:57.158 22a0 Level-0 table #40: 4084458 bytes OK
+2017/03/06-16:27:57.267 22a0 Delete type=0 #37
