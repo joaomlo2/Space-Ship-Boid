@@ -7,7 +7,9 @@ using UnityEngine.Networking;
 public class PlayerShipController : MonoBehaviour
 {
     public float Speed;
-    public float TurningStrength;
+    public float Acceleration;
+    public float TurningSpeed;
+    public float TurningAcceleration;
 
     public float DebugLineLength = 3.0f;
 
@@ -16,48 +18,62 @@ public class PlayerShipController : MonoBehaviour
         ProcessMovement();
 	}
 
+    //Movement Related Stuff
     void ProcessMovement()
     {
-        Vector3 movementToApply=Vector3.zero;
         //Speed
         if (Input.GetKey(KeyCode.A))
         {
-            Speed += 0.1f*Time.deltaTime;
+            Acceleration += 0.1f*Time.deltaTime;
+        }
+        else
+        {
+            if (Acceleration <= 1)
+            {
+                Acceleration = 0;
+            }
         }
         if (Input.GetKey(KeyCode.Z))
         {
-            Speed -= 0.1f * Time.deltaTime;
-            if (Speed < 0)
-                Speed = 0;
+            Acceleration -= 0.1f * Time.deltaTime;
         }
+        else
+        {
+            if (Acceleration >= 1)
+            {
+                Acceleration = 0;
+            }
+        }
+        Speed += 0.1f * Acceleration;
         //Rotation
         if (Input.GetKey(KeyCode.I))
         {
-            transform.Rotate(TurningStrength, 0.0f,0.0f);
+            transform.Rotate(TurningSpeed, 0.0f,0.0f);
         }
         if (Input.GetKey(KeyCode.K))
         {
-            transform.Rotate(-TurningStrength, 0.0f, 0.0f);
+            transform.Rotate(-TurningSpeed, 0.0f, 0.0f);
         }
         if (Input.GetKey(KeyCode.J))
         {
-            transform.Rotate(0.0f, -TurningStrength, 0.0f);
+            transform.Rotate(0.0f, -TurningSpeed, 0.0f);
         }
         if (Input.GetKey(KeyCode.L))
         {
-            transform.Rotate(0.0f, TurningStrength, 0.0f);
+            transform.Rotate(0.0f, TurningSpeed, 0.0f);
         }
         if (Input.GetKey(KeyCode.U))
         {
-            transform.Rotate(0.0f, 0.0f, TurningStrength);
+            transform.Rotate(0.0f, 0.0f, TurningSpeed);
         }
         if (Input.GetKey(KeyCode.O))
         {
-            transform.Rotate(0.0f, 0.0f, -TurningStrength);
+            transform.Rotate(0.0f, 0.0f, -TurningSpeed);
         }
         transform.position += transform.forward*Speed;
     }
 
+    //Gizmos Stuff
     void OnDrawGizmos()
     {
         DrawForwardVector();
