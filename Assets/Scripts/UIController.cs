@@ -5,22 +5,24 @@ using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
-    private GameObject _playerShip;
     public GameObject AccelerationMeter;
     public GameObject SpeedMeter;
+    public GameObject FormationIndicator;
 
     void Awake()
     {
         AccelerationMeter = transform.FindChild("AccelerationIndicator").gameObject;
         SpeedMeter = transform.FindChild("SpeedIndicator").gameObject;
-        _playerShip = GameObject.Find("Player");
+        FormationIndicator = transform.FindChild("FormationIndicator").gameObject;
     }
 
     void Update()
     {
         AccelerationMeter.GetComponent<Text>().text = "Acceleration: " +
-                                                      _playerShip.GetComponent<PlayerShipController>().Acceleration;
+                                                      GlobalController.instance.Player.GetComponent<PlayerShipController>().Acceleration;
         SpeedMeter.GetComponent<Text>().text = "Speed: " +
-                                                      _playerShip.GetComponent<PlayerShipController>().Speed;
+                                                      GlobalController.instance.Player.GetComponent<PlayerShipController>().Speed;
+        FormationIndicator.GetComponent<Text>().text="Formation is On: " +
+                                                      GlobalController.instance.Player.GetComponent<PlayerShipController>().FormationModeActive;
     }
 }

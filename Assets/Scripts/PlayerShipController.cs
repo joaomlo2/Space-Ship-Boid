@@ -11,7 +11,16 @@ public class PlayerShipController : MonoBehaviour
     public float TurningSpeed;
     public float TurningAcceleration;
 
+    public bool FormationModeActive;
+    //Future Implementation
+    private short _formationType;
+
     public float DebugLineLength = 3.0f;
+
+    void Awake()
+    {
+        FormationModeActive = true;
+    }
 
 	void Update ()
     {

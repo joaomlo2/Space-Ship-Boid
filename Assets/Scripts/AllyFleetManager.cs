@@ -8,18 +8,18 @@ public class AllyFleetManager : MonoBehaviour
 
     void Awake()
     {
-        for (int i = 0; i < NumberOfAllies; i++)
+        int counter = 0;
+        foreach (Transform FormationSpot in GameObject.Find("Player").transform.FindChild("FormationPoints"))
         {
-            GameObject newAllyShip = Resources.Load("Prefabs/Ally") as GameObject;
-            newAllyShip.name = "Ally " + (i + 1);
-            newAllyShip.transform.position = Vector3.zero;
+            GameObject newAllyShip = Instantiate(Resources.Load("Prefabs/Ally")) as GameObject;
+            newAllyShip.name = "Ally " + (counter + 1);
+            newAllyShip.transform.position = FormationSpot.position;
+            newAllyShip.transform.SetParent(transform);
+            counter++;
         }
     }
 
-	void Start () {
-
-    }
-
 	void Update () {
+
 	}
 }
