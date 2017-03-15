@@ -6,8 +6,11 @@ using UnityEngine.Assertions.Comparers;
 public class AllyShipController : MonoBehaviour
 {
     public float Speed;
+    public float MaxSpeed;
     public float Acceleration;
     public float TurningSpeed;
+
+    private float _minDistanceToUseMaxSpeed;
 
     public GameObject CurrentDestination;
 
@@ -15,13 +18,15 @@ public class AllyShipController : MonoBehaviour
     {
         Speed = 0.0f;
         Acceleration = 0.0f;
-        SeekDestination();
     }
 
     void Update()
     {
-        AINavigation();
-        Speed += 0.1f * Acceleration;
+        //if (CurrentDestination == null)
+        //{
+        //    SeekDestination();
+        //}
+        //AINavigation();
     }
 
     void SeekDestination()
@@ -49,16 +54,39 @@ public class AllyShipController : MonoBehaviour
         transform.forward = Vector3.Lerp(transform.forward, desiredForwardVector, 1);
         //Speed Managment
         float maxSpeed = 10;
+        if (Vector3.Distance(transform.position, GlobalController.instance.Player.transform.position) >= 10)
+        {
+            Accelerate();
+        }
+        else
+        {
+            Decelerate();
+        }
         Speed += 0.1f*Acceleration;
+        transform.position += transform.forward * Speed;
     }
 
     void Accelerate()
     {
-        Acceleration += 0.1f * Time.deltaTime;
+        if (Acceleration < 1)
+        {
+            Acceleration += 1f * Time.deltaTime;
+        }
+        else
+        {
+            Acceleration += 0.1f * Time.deltaTime;
+        }
     }
 
     void Decelerate()
     {
-        Acceleration -= 0.1f * Time.deltaTime;
+        if (Acceleration > 1)
+        {
+            Acceleration -= 1f * Time.deltaTime;
+        }
+        else
+        {
+            Acceleration -= 0.1f * Time.deltaTime;
+        }
     }
 }

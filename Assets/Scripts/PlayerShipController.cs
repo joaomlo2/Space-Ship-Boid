@@ -19,39 +19,30 @@ public class PlayerShipController : MonoBehaviour
 
     void Awake()
     {
-        FormationModeActive = true;
+        FormationModeActive = false;
     }
 
 	void Update ()
     {
         ProcessMovement();
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            FormationModeActive = !FormationModeActive;
+        }
 	}
 
     //Movement Related Stuff
     void ProcessMovement()
     {
+        Vector3 AccelerationVector;
         //Speed
         if (Input.GetKey(KeyCode.A))
         {
             Acceleration += 0.1f*Time.deltaTime;
         }
-        else
-        {
-            if (Acceleration <= 1)
-            {
-                Acceleration = 0;
-            }
-        }
         if (Input.GetKey(KeyCode.Z))
         {
             Acceleration -= 0.1f * Time.deltaTime;
-        }
-        else
-        {
-            if (Acceleration >= 1)
-            {
-                Acceleration = 0;
-            }
         }
         Speed += 0.1f * Acceleration;
         //Rotation
@@ -79,7 +70,7 @@ public class PlayerShipController : MonoBehaviour
         {
             transform.Rotate(0.0f, 0.0f, -TurningSpeed);
         }
-        transform.position += transform.forward*Speed;
+        transform.position += transform.forward * Speed;
     }
 
     //Gizmos Stuff

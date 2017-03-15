@@ -19,4 +19,9 @@ public class GlobalController : MonoBehaviour
         Player=GameObject.Find("Player");
         AlliesHolder=GameObject.Find("Allies");
     }
+
+    void Update()
+    {
+
+    }
 }
