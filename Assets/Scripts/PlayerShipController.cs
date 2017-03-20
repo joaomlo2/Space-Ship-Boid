@@ -44,6 +44,10 @@ public class PlayerShipController : MonoBehaviour
         {
             Acceleration -= 0.1f * Time.deltaTime;
         }
+        if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.Z))
+        {
+            Acceleration = 0;
+        }
         Speed += 0.1f * Acceleration;
         //Rotation
         if (Input.GetKey(KeyCode.I))
