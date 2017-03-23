@@ -11,6 +11,8 @@ public class Flock : MonoBehaviour
     public float neighbourDistance = 5.0f;
 
 
+    public bool inFormation=false;
+    public GameObject AttributedFormationPoint;
     public Vector3 GoalPosition;
     private float _goalResetTimer = 0;
 
@@ -23,14 +25,19 @@ public class Flock : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        Debug.DrawLine(this.transform.position,GoalPosition,Random.ColorHSV());
+        if (inFormation)
+            Debug.DrawLine(this.transform.position, GoalPosition, Color.green);
+        else
+        {
+            Debug.DrawLine(this.transform.position, GoalPosition, Color.blue);
+        }
     }
 
     void Update()
     {
-        if (GlobalController.instance.Player.GetComponent<PlayerShipController>().FormationModeActive)
+        if (GlobalController.instance.Player.GetComponent<PlayerShipController>().FormationModeActive && inFormation)
         {
-            GoalPosition = GlobalController.instance.Player.transform.position;
+            GoalPosition = AttributedFormationPoint.transform.position;
         }
         else
         {
@@ -38,7 +45,7 @@ public class Flock : MonoBehaviour
         }
 
         //turning = true;
-        if (Vector3.Distance(transform.position, Vector3.zero) >= 200)
+        if (Vector3.Distance(transform.position, Vector3.zero) >= 200 || inFormation)
         {
             turning = true;
         }

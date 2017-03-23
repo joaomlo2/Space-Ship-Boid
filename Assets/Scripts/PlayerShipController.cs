@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Security.Permissions;
 using UnityEngine;
@@ -12,6 +13,12 @@ public class PlayerShipController : MonoBehaviour
     public float TurningAcceleration;
 
     public bool FormationModeActive;
+    public int NumberOfFreeSpacesInFormation;
+    public int MaxFormationSize = 4;
+    private int previouslySelectedFormation;
+    private int SelectedFormation=0;
+    public string[] Formations = {"Line", "Wall", "Arrow"};
+
     //Future Implementation
     private short _formationType;
 
@@ -20,16 +27,91 @@ public class PlayerShipController : MonoBehaviour
     void Awake()
     {
         FormationModeActive = false;
+        previouslySelectedFormation = SelectedFormation;
     }
 
 	void Update ()
     {
         ProcessMovement();
-        if (Input.GetKeyDown(KeyCode.Space))
+        FormationController();
+
+    }
+
+    void FormationController()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
         {
-            FormationModeActive = !FormationModeActive;
+            if (!FormationModeActive)
+            {
+                FormationModeActive = !FormationModeActive;
+            }
+            else
+            {
+                GlobalController.instance.AlliesHolder.GetComponent<AllyFleetManager>().ClearFormation();
+                FormationModeActive = !FormationModeActive;
+            }
         }
-	}
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            if (SelectedFormation == Formations.Length-1)
+            {
+                SelectedFormation = 0;
+            }
+            else
+            {
+                SelectedFormation++;
+            }
+        }
+
+        //if (SelectedFormation != previouslySelectedFormation)
+        //{
+        //    foreach (Transform t in transform.FindChild("FormationPoints"))
+        //    {
+        //        Destroy(t.gameObject);
+        //    }
+        //    switch (SelectedFormation)
+        //    {
+        //        case 0:
+        //            for (int i = 0; i < MaxFormationSize; i++)
+        //            {
+        //                float spacingBetweenFormationPoints = 10;
+        //                GameObject point=Instantiate(Resources.Load("Prefabs/FormationPoint")) as GameObject;
+        //                point.transform.position = (transform.right*spacingBetweenFormationPoints)* (i + 1);
+        //                point.transform.forward = transform.forward;
+        //                point.transform.parent = transform.FindChild("FormationPoints");
+        //            }
+        //            break;
+        //        case 1:
+        //            for (int i = 0; i < MaxFormationSize; i++)
+        //            {
+        //                float spacingBetweenFormationPoints = 5;
+        //                float heightDifference = 2;
+        //                GameObject point = Instantiate(Resources.Load("Prefabs/FormationPoint")) as GameObject;
+        //                point.transform.position = (transform.right * spacingBetweenFormationPoints) * (i + 1);
+        //                point.transform.parent = transform.FindChild("FormationPoints");
+        //                if (i%2 != 0)
+        //                {
+        //                    point.transform.position=new Vector3(point.transform.position.x, point.transform.position.y-heightDifference, point.transform.position.z);
+        //                }
+        //                point.transform.forward = transform.forward;
+        //            }
+        //            break;
+        //        case 2:
+        //            for (int i = 0; i < MaxFormationSize; i++)
+        //            {
+        //                float spacingBetweenFormationPoints = 10;
+        //                GameObject point = Instantiate(Resources.Load("Prefabs/FormationPoint")) as GameObject;
+        //                point.transform.position = (Vector3.Cross(transform.right,-transform.forward) * spacingBetweenFormationPoints) * (i+1);
+        //                point.transform.forward = transform.forward;
+        //                point.transform.parent = transform.FindChild("FormationPoints");
+        //            }
+        //            break;
+        //        default:
+        //            break;
+        //    }
+        //    previouslySelectedFormation = SelectedFormation;
+        //}
+    }
 
     //Movement Related Stuff
     void ProcessMovement()
