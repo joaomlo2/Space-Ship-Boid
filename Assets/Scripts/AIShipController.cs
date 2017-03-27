@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Flock : MonoBehaviour
+public class AIShipController : MonoBehaviour
 {
     public float Speed = 3.0f;
     public float rotationSpeed = 2.0f;
@@ -11,7 +11,8 @@ public class Flock : MonoBehaviour
     public float neighbourDistance = 5.0f;
 
 
-    public bool inFormation=false;
+    public bool isInPosition = false;
+    public bool belongsToFormation=false;
     public GameObject AttributedFormationPoint;
     public Vector3 GoalPosition;
     private float _goalResetTimer = 0;
@@ -25,7 +26,7 @@ public class Flock : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        if (inFormation)
+        if (belongsToFormation)
             Debug.DrawLine(this.transform.position, GoalPosition, Color.green);
         else
         {
@@ -33,10 +34,27 @@ public class Flock : MonoBehaviour
         }
     }
 
+    void OnTriggerEnter(Collider collider)
+    {
+        if (belongsToFormation)
+        {
+            if (collider.gameObject == AttributedFormationPoint)
+            {
+                isInPosition = true;
+            }
+        }
+    }
+
+    void OnTriggerExit()
+    {
+        isInPosition = false;
+    }
+
     void Update()
     {
-        if (GlobalController.instance.Player.GetComponent<PlayerShipController>().FormationModeActive && inFormation)
+        if (GlobalController.instance.Player.GetComponent<PlayerShipController>().FormationModeActive && belongsToFormation)
         {
+            //CheckIfIsInPosition();
             GoalPosition = AttributedFormationPoint.transform.position;
         }
         else
@@ -44,8 +62,7 @@ public class Flock : MonoBehaviour
             Wander();
         }
 
-        //turning = true;
-        if (Vector3.Distance(transform.position, Vector3.zero) >= 200 || inFormation)
+        if (Vector3.Distance(transform.position, Vector3.zero) >= 200 || belongsToFormation)
         {
             turning = true;
         }
@@ -57,9 +74,18 @@ public class Flock : MonoBehaviour
         if (turning)
         {
             Vector3 direction = GoalPosition - transform.position;
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction),
-                rotationSpeed*Time.deltaTime);
-            Speed = Random.Range(10.0f, 50.0f);
+            if (!isInPosition)
+            {
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction),
+                    rotationSpeed*Time.deltaTime);
+                Speed = Random.Range(10.0f, 50.0f);
+            }
+            else
+            {
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(AttributedFormationPoint.transform.forward,AttributedFormationPoint.transform.up),
+                    rotationSpeed * Time.deltaTime);
+                Speed = GlobalController.instance.Player.GetComponent<PlayerShipController>().Speed-0.1f;
+            }
         }
         else
         {
@@ -67,6 +93,11 @@ public class Flock : MonoBehaviour
                 ApplyRules();
         }
         transform.Translate(0, 0, Time.deltaTime*Speed);
+    }
+
+    void CheckIfIsInPosition()
+    {
+        isInPosition = Vector3.Distance(transform.position, AttributedFormationPoint.transform.position) <= 3f;
     }
 
     void Wander()
@@ -105,7 +136,7 @@ public class Flock : MonoBehaviour
                     {
                         vAvoid += this.transform.position - ships[i].transform.position;
                     }
-                    Flock anotherFlock = ships[i].GetComponent<Flock>();
+                    AIShipController anotherFlock = ships[i].GetComponent<AIShipController>();
                     gSpeed += anotherFlock.Speed;
                 }
             }

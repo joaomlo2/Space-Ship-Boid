@@ -43,12 +43,12 @@ public class AllyFleetManager : MonoBehaviour
                         allyArray[ShipClosestToPlayer()];
                     GlobalController.instance.Player.transform.FindChild("FormationPoints")
                             .transform.GetChild(i)
-                            .GetComponent<FormationPointController>().currentOccupyingShip.GetComponent<Flock>().inFormation
+                            .GetComponent<FormationPointController>().currentOccupyingShip.GetComponent<AIShipController>().belongsToFormation
                         = true;
                     GlobalController.instance.Player.transform.FindChild("FormationPoints")
                             .transform.GetChild(i)
                             .GetComponent<FormationPointController>()
-                            .currentOccupyingShip.GetComponent<Flock>()
+                            .currentOccupyingShip.GetComponent<AIShipController>()
                             .AttributedFormationPoint =
                         GlobalController.instance.Player.transform.FindChild("FormationPoints")
                             .transform.GetChild(i).gameObject;
@@ -64,11 +64,11 @@ public class AllyFleetManager : MonoBehaviour
             GlobalController.instance.Player.transform.FindChild("FormationPoints")
                 .GetChild(i)
                 .GetComponent<FormationPointController>()
-                .currentOccupyingShip.GetComponent<Flock>().inFormation = false;
+                .currentOccupyingShip.GetComponent<AIShipController>().belongsToFormation = false;
             GlobalController.instance.Player.transform.FindChild("FormationPoints")
                 .GetChild(i)
                 .GetComponent<FormationPointController>()
-                .currentOccupyingShip.GetComponent<Flock>().AttributedFormationPoint = null;
+                .currentOccupyingShip.GetComponent<AIShipController>().AttributedFormationPoint = null;
             GlobalController.instance.Player.transform.FindChild("FormationPoints")
                 .GetChild(i)
                 .GetComponent<FormationPointController>()
@@ -82,7 +82,7 @@ public class AllyFleetManager : MonoBehaviour
         int closestShipIndex = 0;
         for (int i = 0; i < allyArray.Length; i++)
         {
-            if (Vector3.Distance(allyArray[i].transform.position, GlobalController.instance.Player.transform.position) < minDist && !allyArray[i].GetComponent<Flock>().inFormation)
+            if (Vector3.Distance(allyArray[i].transform.position, GlobalController.instance.Player.transform.position) < minDist && !allyArray[i].GetComponent<AIShipController>().belongsToFormation)
             {
                 closestShipIndex = i;
                 minDist = Vector3.Distance(allyArray[i].transform.position, GlobalController.instance.Player.transform.position);

@@ -34,7 +34,6 @@ public class PlayerShipController : MonoBehaviour
     {
         ProcessMovement();
         FormationController();
-
     }
 
     void FormationController()
@@ -62,55 +61,6 @@ public class PlayerShipController : MonoBehaviour
                 SelectedFormation++;
             }
         }
-
-        //if (SelectedFormation != previouslySelectedFormation)
-        //{
-        //    foreach (Transform t in transform.FindChild("FormationPoints"))
-        //    {
-        //        Destroy(t.gameObject);
-        //    }
-        //    switch (SelectedFormation)
-        //    {
-        //        case 0:
-        //            for (int i = 0; i < MaxFormationSize; i++)
-        //            {
-        //                float spacingBetweenFormationPoints = 10;
-        //                GameObject point=Instantiate(Resources.Load("Prefabs/FormationPoint")) as GameObject;
-        //                point.transform.position = (transform.right*spacingBetweenFormationPoints)* (i + 1);
-        //                point.transform.forward = transform.forward;
-        //                point.transform.parent = transform.FindChild("FormationPoints");
-        //            }
-        //            break;
-        //        case 1:
-        //            for (int i = 0; i < MaxFormationSize; i++)
-        //            {
-        //                float spacingBetweenFormationPoints = 5;
-        //                float heightDifference = 2;
-        //                GameObject point = Instantiate(Resources.Load("Prefabs/FormationPoint")) as GameObject;
-        //                point.transform.position = (transform.right * spacingBetweenFormationPoints) * (i + 1);
-        //                point.transform.parent = transform.FindChild("FormationPoints");
-        //                if (i%2 != 0)
-        //                {
-        //                    point.transform.position=new Vector3(point.transform.position.x, point.transform.position.y-heightDifference, point.transform.position.z);
-        //                }
-        //                point.transform.forward = transform.forward;
-        //            }
-        //            break;
-        //        case 2:
-        //            for (int i = 0; i < MaxFormationSize; i++)
-        //            {
-        //                float spacingBetweenFormationPoints = 10;
-        //                GameObject point = Instantiate(Resources.Load("Prefabs/FormationPoint")) as GameObject;
-        //                point.transform.position = (Vector3.Cross(transform.right,-transform.forward) * spacingBetweenFormationPoints) * (i+1);
-        //                point.transform.forward = transform.forward;
-        //                point.transform.parent = transform.FindChild("FormationPoints");
-        //            }
-        //            break;
-        //        default:
-        //            break;
-        //    }
-        //    previouslySelectedFormation = SelectedFormation;
-        //}
     }
 
     //Movement Related Stuff
@@ -130,7 +80,7 @@ public class PlayerShipController : MonoBehaviour
         {
             Acceleration = 0;
         }
-        Speed += 0.1f * Acceleration;
+        Speed += 1f * Acceleration;
         //Rotation
         if (Input.GetKey(KeyCode.I))
         {
@@ -156,7 +106,8 @@ public class PlayerShipController : MonoBehaviour
         {
             transform.Rotate(0.0f, 0.0f, -TurningSpeed);
         }
-        transform.position += transform.forward * Speed;
+        //transform.position += transform.forward * Speed;
+        transform.Translate(0, 0, Time.deltaTime * Speed);
     }
 
     //Gizmos Stuff
