@@ -1,9 +1,10 @@
 ﻿<RecentlyViewedMethods>
   <RecentlyViewedMethods>
-    <RecentMethod id="ec9bdb3a-c600-101c-775c-be4a436fe3d5%28Space-Ship-Boid%29-13/M%3AAllyFleetManager.Update" />
-    <RecentMethod id="ec9bdb3a-c600-101c-775c-be4a436fe3d5%28Space-Ship-Boid%29-13/M%3AAllyFleetManager.Awake" />
-    <RecentMethod id="ec9bdb3a-c600-101c-775c-be4a436fe3d5%28Space-Ship-Boid%29-13/M%3AAllyFleetManager.Start" />
-    <RecentMethod id="ec9bdb3a-c600-101c-775c-be4a436fe3d5%28Space-Ship-Boid%29-13/M%3AUIController.Awake" />
-    <RecentMethod id="ec9bdb3a-c600-101c-775c-be4a436fe3d5%28Space-Ship-Boid%29-13/M%3APlayerShipController.ProcessMovement" />
+    <RecentMethod id="ec9bdb3a-c600-101c-775c-be4a436fe3d5%28Space-Ship-Boid%29-13/M%3APlayerShipController.FormationController" />
+    <RecentMethod id="ec9bdb3a-c600-101c-775c-be4a436fe3d5%28Space-Ship-Boid%29-13/M%3AAIShipController.HandleFactionBasedBehaviour" />
+    <RecentMethod id="ec9bdb3a-c600-101c-775c-be4a436fe3d5%28Space-Ship-Boid%29-13/M%3AAIShipController.Update" />
+    <RecentMethod id="ec9bdb3a-c600-101c-775c-be4a436fe3d5%28Space-Ship-Boid%29-13/M%3AAIShipController.HandleMovement" />
+    <RecentMethod id="ec9bdb3a-c600-101c-775c-be4a436fe3d5%28Space-Ship-Boid%29-13/M%3AAllyShipController.Decelerate" />
+    <RecentMethod id="ec9bdb3a-c600-101c-775c-be4a436fe3d5%28Space-Ship-Boid%29-13/M%3AAllyShipController.AINavigation" />
   </RecentlyViewedMethods>
 </RecentlyViewedMethods>

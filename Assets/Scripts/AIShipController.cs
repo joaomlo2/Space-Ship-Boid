@@ -1,36 +1,55 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class AIShipController : MonoBehaviour
 {
+    public enum ShipState
+    {
+        Wandering,
+        Engaging,
+        Formation,
+        Evading
+    };
+
+    public ShipState currentState;
     public float Speed = 3.0f;
     public float rotationSpeed = 2.0f;
-    public Vector3 averageDirection;
-    public Vector3 averagePosition;
-    public float neighbourDistance = 5.0f;
+    private Vector3 averageDirection;
+    private Vector3 averagePosition;
+    private float neighbourDistance = 5.0f;
 
+    public int Faction;//1-Player Faction 2-Enemy Faction
 
-    public bool isInPosition = false;
-    public bool belongsToFormation=false;
-    public GameObject AttributedFormationPoint;
-    public Vector3 GoalPosition;
+    public bool isInPosition;
+    public bool belongsToFormation = false;
+    public GameObject PointBeingPursued;
+    private Vector3 GoalPosition;
     private float _goalResetTimer = 0;
 
     private bool turning = false;
 
     void Start()
     {
-        Speed = Random.Range(10.0f, 50.0f);
+        currentState=ShipState.Wandering;
+        Speed = UnityEngine.Random.Range(10.0f, 50.0f);
     }
 
     void OnDrawGizmos()
     {
-        if (belongsToFormation)
-            Debug.DrawLine(this.transform.position, GoalPosition, Color.green);
+        if (Faction == 1)
+        {
+            if (belongsToFormation)
+                Debug.DrawLine(this.transform.position, GoalPosition, Color.green);
+            else
+            {
+                Debug.DrawLine(this.transform.position, GoalPosition, Color.blue);
+            }
+        }
         else
         {
-            Debug.DrawLine(this.transform.position, GoalPosition, Color.blue);
+            Debug.DrawLine(this.transform.position, GoalPosition, Color.red);
         }
     }
 
@@ -38,7 +57,7 @@ public class AIShipController : MonoBehaviour
     {
         if (belongsToFormation)
         {
-            if (collider.gameObject == AttributedFormationPoint)
+            if (collider.gameObject == PointBeingPursued)
             {
                 isInPosition = true;
             }
@@ -52,16 +71,39 @@ public class AIShipController : MonoBehaviour
 
     void Update()
     {
-        if (GlobalController.instance.Player.GetComponent<PlayerShipController>().FormationModeActive && belongsToFormation)
-        {
-            //CheckIfIsInPosition();
-            GoalPosition = AttributedFormationPoint.transform.position;
-        }
-        else
-        {
-            Wander();
-        }
+        HandleFactionBasedBehaviour();
+        HandleMovement();
+    }
 
+    private void HandleFactionBasedBehaviour()
+    {
+        switch (currentState)
+        {
+            case ShipState.Formation:
+                if (Faction == 1)
+                {
+                    if (GlobalController.instance.Player.GetComponent<PlayerShipController>().FormationModeActive &&
+            belongsToFormation)
+                    {
+                        CheckIfIsInPosition();
+                        GoalPosition = PointBeingPursued.transform.position;
+                    }
+                }
+                break;
+            case ShipState.Engaging:
+                Pursue();
+                break;
+            case ShipState.Evading:
+                Flee();
+                break;
+            case ShipState.Wandering:
+                Wander();
+                break;
+        }
+    }
+
+    private void HandleMovement()
+    {
         if (Vector3.Distance(transform.position, Vector3.zero) >= 200 || belongsToFormation)
         {
             turning = true;
@@ -70,41 +112,65 @@ public class AIShipController : MonoBehaviour
         {
             turning = false;
         }
-
         if (turning)
         {
             Vector3 direction = GoalPosition - transform.position;
             if (!isInPosition)
             {
                 transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction),
-                    rotationSpeed*Time.deltaTime);
-                Speed = Random.Range(10.0f, 50.0f);
+                    rotationSpeed * Time.deltaTime);
+                if (!belongsToFormation)
+                    Speed = UnityEngine.Random.Range(10.0f, 50.0f);
+                else
+                {
+                    Speed = UnityEngine.Random.Range(10.0f, 50.0f);
+                }
             }
             else
             {
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(AttributedFormationPoint.transform.forward,AttributedFormationPoint.transform.up),
+                transform.rotation = Quaternion.Slerp(transform.rotation,
+                    Quaternion.LookRotation(PointBeingPursued.transform.forward,
+                        PointBeingPursued.transform.up),
                     rotationSpeed * Time.deltaTime);
-                Speed = GlobalController.instance.Player.GetComponent<PlayerShipController>().Speed-0.1f;
+                Speed = GlobalController.instance.Player.GetComponent<PlayerShipController>().Speed;
             }
+            ApplyRules();
         }
         else
         {
-            if (Random.Range(0, 5) < 1)
+            if (UnityEngine.Random.Range(0, 5) < 1)
                 ApplyRules();
         }
-        transform.Translate(0, 0, Time.deltaTime*Speed);
+        transform.Translate(0, 0, Time.deltaTime * Speed);
+    }
+
+    void Flee()
+    {
+        if (_goalResetTimer >= 5)
+        {
+            GoalPosition = new Vector3(UnityEngine.Random.Range(-200, 200), UnityEngine.Random.Range(-200, 200), UnityEngine.Random.Range(-200, 200));
+            _goalResetTimer = 0;
+        }
+        else
+        {
+            _goalResetTimer += Time.deltaTime;
+        }
+    }
+
+    void Pursue()
+    {
     }
 
     void CheckIfIsInPosition()
     {
-        isInPosition = Vector3.Distance(transform.position, AttributedFormationPoint.transform.position) <= 3f;
+        isInPosition = Vector3.Distance(transform.position, PointBeingPursued.transform.position) <= 6f;
     }
 
     void Wander()
     {
         if (_goalResetTimer >= 5)
         {
-            GoalPosition = new Vector3(Random.Range(-300, 300), Random.Range(-50, 50), Random.Range(-200, 200));
+            GoalPosition = new Vector3(UnityEngine.Random.Range(-200, 200), UnityEngine.Random.Range(-200, 200), UnityEngine.Random.Range(-200, 200));
             _goalResetTimer = 0;
         }
         else

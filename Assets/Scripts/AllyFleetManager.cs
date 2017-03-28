@@ -49,7 +49,7 @@ public class AllyFleetManager : MonoBehaviour
                             .transform.GetChild(i)
                             .GetComponent<FormationPointController>()
                             .currentOccupyingShip.GetComponent<AIShipController>()
-                            .AttributedFormationPoint =
+                            .PointBeingPursued =
                         GlobalController.instance.Player.transform.FindChild("FormationPoints")
                             .transform.GetChild(i).gameObject;
                 }
@@ -68,7 +68,7 @@ public class AllyFleetManager : MonoBehaviour
             GlobalController.instance.Player.transform.FindChild("FormationPoints")
                 .GetChild(i)
                 .GetComponent<FormationPointController>()
-                .currentOccupyingShip.GetComponent<AIShipController>().AttributedFormationPoint = null;
+                .currentOccupyingShip.GetComponent<AIShipController>().PointBeingPursued = null;
             GlobalController.instance.Player.transform.FindChild("FormationPoints")
                 .GetChild(i)
                 .GetComponent<FormationPointController>()

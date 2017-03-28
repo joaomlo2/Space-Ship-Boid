@@ -7,6 +7,7 @@ public class GlobalController : MonoBehaviour
     public static GlobalController instance;
     public GameObject Player;
     public GameObject AlliesHolder;
+    public GameObject EnemiesHolder;
 
     void Awake()
     {
@@ -18,10 +19,6 @@ public class GlobalController : MonoBehaviour
         }
         Player=GameObject.Find("Player");
         AlliesHolder=GameObject.Find("Allies");
-    }
-
-    void Update()
-    {
-
+        EnemiesHolder=GameObject.Find("Enemies");
     }
 }

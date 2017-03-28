@@ -77,7 +77,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\AIShipController.cs" />
     <Compile Include="Assets\Scripts\AllyFleetManager.cs" />
-    <Compile Include="Assets\Scripts\AllyShipController.cs" />
+    <Compile Include="Assets\Scripts\EnemyFleetController.cs" />
     <Compile Include="Assets\Scripts\FormationPointController.cs" />
     <Compile Include="Assets\Scripts\GlobalController.cs" />
     <Compile Include="Assets\Scripts\PlayerShipController.cs" />

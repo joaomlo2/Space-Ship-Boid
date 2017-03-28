@@ -1,20 +1,6 @@
 ﻿<RecentFiles>
   <RecentFiles>
-    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:PlayerShipController.cs" caret="500" fromTop="0" />
-    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:AllyFleetManager.cs" caret="304" fromTop="12" />
+    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:AIShipController.cs" caret="585" fromTop="6" />
   </RecentFiles>
-  <RecentEdits>
-    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:AllyFleetManager.cs" caret="127" fromTop="5" />
-    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:AllyFleetManager.cs" caret="468" fromTop="24" />
-    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:PlayerShipController.cs" caret="627" fromTop="21" />
-    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:PlayerShipController.cs" caret="865" fromTop="30" />
-    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:PlayerShipController.cs" caret="738" fromTop="18" />
-    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:PlayerShipController.cs" caret="1013" fromTop="32" />
-    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:PlayerShipController.cs" caret="876" fromTop="24" />
-    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:PlayerShipController.cs" caret="500" fromTop="16" />
-    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:AllyFleetManager.cs" caret="496" fromTop="25" />
-    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:AllyFleetManager.cs" caret="496" fromTop="22" />
-    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:AllyFleetManager.cs" caret="434" fromTop="14" />
-    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:AllyFleetManager.cs" caret="304" fromTop="12" />
-  </RecentEdits>
+  <RecentEdits />
 </RecentFiles>
