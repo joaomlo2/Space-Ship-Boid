@@ -11,7 +11,6 @@ public class PlayerShipController : MonoBehaviour
     public float Acceleration;
     public float TurningSpeed;
     public float TurningAcceleration;
-    public bool IsRotating;
 
     public bool FormationModeActive;
     public int NumberOfFreeSpacesInFormation;
@@ -83,38 +82,29 @@ public class PlayerShipController : MonoBehaviour
         }
         Speed += 1f * Acceleration;
         //Rotation
-        if (Input.GetKey(KeyCode.I) || Input.GetKey(KeyCode.K) || Input.GetKey(KeyCode.J) || Input.GetKey(KeyCode.L) ||
-            Input.GetKey(KeyCode.U) || Input.GetKey(KeyCode.O))
+        if (Input.GetKey(KeyCode.I))
         {
-            IsRotating = true;
-            if (Input.GetKey(KeyCode.I))
-            {
-                transform.Rotate(TurningSpeed, 0.0f, 0.0f);
-            }
-            if (Input.GetKey(KeyCode.K))
-            {
-                transform.Rotate(-TurningSpeed, 0.0f, 0.0f);
-            }
-            if (Input.GetKey(KeyCode.J))
-            {
-                transform.Rotate(0.0f, -TurningSpeed, 0.0f);
-            }
-            if (Input.GetKey(KeyCode.L))
-            {
-                transform.Rotate(0.0f, TurningSpeed, 0.0f);
-            }
-            if (Input.GetKey(KeyCode.U))
-            {
-                transform.Rotate(0.0f, 0.0f, TurningSpeed);
-            }
-            if (Input.GetKey(KeyCode.O))
-            {
-                transform.Rotate(0.0f, 0.0f, -TurningSpeed);
-            }
+            transform.Rotate(TurningSpeed, 0.0f, 0.0f);
         }
-        else
+        if (Input.GetKey(KeyCode.K))
         {
-            IsRotating = false;
+            transform.Rotate(-TurningSpeed, 0.0f, 0.0f);
+        }
+        if (Input.GetKey(KeyCode.J))
+        {
+            transform.Rotate(0.0f, -TurningSpeed, 0.0f);
+        }
+        if (Input.GetKey(KeyCode.L))
+        {
+            transform.Rotate(0.0f, TurningSpeed, 0.0f);
+        }
+        if (Input.GetKey(KeyCode.U))
+        {
+            transform.Rotate(0.0f, 0.0f, TurningSpeed);
+        }
+        if (Input.GetKey(KeyCode.O))
+        {
+            transform.Rotate(0.0f, 0.0f, -TurningSpeed);
         }
         //transform.position += transform.forward * Speed;
         transform.Translate(0, 0, Time.deltaTime * Speed);

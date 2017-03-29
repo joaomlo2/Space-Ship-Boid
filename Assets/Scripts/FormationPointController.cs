@@ -6,11 +6,14 @@ public class FormationPointController : MonoBehaviour
 {
     public GameObject currentOccupyingShip;
 
+    private Quaternion _previousPlayerShipRotation;
+
     void Update()
     {
-        if (GlobalController.instance.Player.GetComponent<PlayerShipController>().IsRotating)
+        if (GlobalController.instance.Player.transform.rotation!=_previousPlayerShipRotation)
         {
             transform.localRotation = GlobalController.instance.Player.transform.rotation;
+            _previousPlayerShipRotation = GlobalController.instance.Player.transform.rotation;
         }
         else
         {

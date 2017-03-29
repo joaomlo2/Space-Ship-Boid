@@ -2,23 +2,29 @@
   <RecentFiles>
     <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:UIController.cs" caret="808" fromTop="22" />
     <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:AIShipController.cs" caret="2929" fromTop="15" />
-    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:EnemyFleetController.cs" caret="746" fromTop="23" />
-    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:AllyFleetManager.cs" caret="1928" fromTop="13" />
-    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:PlayerShipController.cs" caret="3334" fromTop="44" />
-    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:FormationPointController.cs" caret="576" fromTop="17" />
+    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:PlayerShipController.cs" caret="2323" fromTop="12" />
+    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:FormationPointController.cs" caret="363" fromTop="12" />
+    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:AllyFleetManager.cs" caret="620" fromTop="16" />
+    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:EnemyFleetController.cs" caret="939" fromTop="20" />
   </RecentFiles>
   <RecentEdits>
-    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:EnemyFleetController.cs" caret="746" fromTop="23" />
-    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:AllyFleetManager.cs" caret="1021" fromTop="11" />
-    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:AllyFleetManager.cs" caret="2499" fromTop="35" />
-    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:AllyFleetManager.cs" caret="956" fromTop="17" />
+    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:AllyFleetManager.cs" caret="1148" fromTop="11" />
+    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:AllyFleetManager.cs" caret="2626" fromTop="35" />
+    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:AllyFleetManager.cs" caret="1083" fromTop="17" />
     <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:AIShipController.cs" caret="3885" fromTop="33" />
-    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:FormationPointController.cs" caret="213" fromTop="24" />
-    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:PlayerShipController.cs" caret="375" fromTop="13" />
-    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:PlayerShipController.cs" caret="3265" fromTop="24" />
-    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:PlayerShipController.cs" caret="2464" fromTop="19" />
-    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:PlayerShipController.cs" caret="3334" fromTop="26" />
-    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:FormationPointController.cs" caret="185" fromTop="6" />
-    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:FormationPointController.cs" caret="576" fromTop="17" />
+    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:PlayerShipController.cs" caret="2910" fromTop="24" />
+    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:FormationPointController.cs" caret="712" fromTop="16" />
+    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:PlayerShipController.cs" caret="346" fromTop="12" />
+    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:PlayerShipController.cs" caret="2206" fromTop="11" />
+    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:PlayerShipController.cs" caret="2911" fromTop="20" />
+    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:PlayerShipController.cs" caret="2793" fromTop="16" />
+    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:PlayerShipController.cs" caret="2676" fromTop="12" />
+    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:PlayerShipController.cs" caret="2559" fromTop="8" />
+    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:PlayerShipController.cs" caret="2441" fromTop="16" />
+    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:PlayerShipController.cs" caret="2323" fromTop="12" />
+    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:FormationPointController.cs" caret="240" fromTop="8" />
+    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:FormationPointController.cs" caret="362" fromTop="12" />
+    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:AllyFleetManager.cs" caret="764" fromTop="16" />
+    <File id="EC9BDB3A-C600-101C-775C-BE4A436FE3D5/d:Assets/d:Scripts/f:EnemyFleetController.cs" caret="804" fromTop="20" />
   </RecentEdits>
 </RecentFiles>

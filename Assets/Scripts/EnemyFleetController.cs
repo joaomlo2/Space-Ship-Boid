@@ -18,7 +18,7 @@ public class EnemyFleetController : MonoBehaviour {
         {
             enemyArray[i] = Instantiate(Resources.Load("Prefabs/Enemy")) as GameObject;
             enemyArray[i].name = "Enemy " + (i + 1);
-            enemyArray[i].transform.position = new Vector3(Random.Range(-100, 100), Random.Range(-50, 50), Random.Range(-100, 100));
+            enemyArray[i].transform.position = new Vector3(Random.Range(transform.position.x - 100, transform.position.x + 100), Random.Range(transform.position.y - 50, transform.position.y + 50), Random.Range(transform.position.z - 100, transform.position.z + 100));
             enemyArray[i].transform.SetParent(transform);
         }
     }

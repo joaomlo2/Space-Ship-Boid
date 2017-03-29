@@ -1,45 +1,14 @@
-2017/03/28-02:26:03.021 3494 Recovering log #51
-2017/03/28-02:26:03.033 3494 Level-0 table #54: started
-2017/03/28-02:26:03.199 3494 Level-0 table #54: 4083537 bytes OK
-2017/03/28-02:26:03.286 3494 Delete type=0 #51
-2017/03/28-02:26:03.288 3494 Delete type=3 #2
-2017/03/28-02:27:41.572 4b64 Compacting 2@0 + 2@1 files
-2017/03/28-02:27:41.785 4b64 Generated table #56: 4939 keys, 2168230 bytes
-2017/03/28-02:27:41.941 4b64 Generated table #57: 3532 keys, 2164559 bytes
-2017/03/28-02:27:42.001 4b64 Generated table #58: 311 keys, 77723 bytes
-2017/03/28-02:27:42.001 4b64 Compacted 2@0 + 2@1 files => 4410512 bytes
-2017/03/28-02:27:42.016 4b64 Delete type=2 #44
-2017/03/28-02:27:42.016 4b64 Delete type=2 #45
-2017/03/28-02:27:42.017 4b64 Delete type=2 #52
-2017/03/28-02:27:42.018 4b64 Delete type=2 #54
-2017/03/28-02:27:42.018 4b64 compacted to: files[ 0 3 10 0 0 0 0 ]
-2017/03/28-02:30:10.326 4b64 Expanding@1 1+7 to 2+7
-2017/03/28-02:30:10.326 4b64 Compacting 2@1 + 7@2 files
-2017/03/28-02:30:10.537 4b64 Generated table #59: 5323 keys, 2159920 bytes
-2017/03/28-02:30:10.744 4b64 Generated table #60: 5258 keys, 2160583 bytes
-2017/03/28-02:30:10.927 4b64 Generated table #61: 4859 keys, 2165220 bytes
-2017/03/28-02:30:11.124 4b64 Generated table #62: 3502 keys, 2166603 bytes
-2017/03/28-02:30:11.331 4b64 Generated table #63: 3373 keys, 2159337 bytes
-2017/03/28-02:30:11.544 4b64 Generated table #64: 3494 keys, 2168082 bytes
-2017/03/28-02:30:11.707 4b64 Generated table #65: 2795 keys, 2169523 bytes
-2017/03/28-02:30:11.823 4b64 Generated table #66: 3690 keys, 2168148 bytes
-2017/03/28-02:30:11.922 4b64 Generated table #67: 2701 keys, 2169986 bytes
-2017/03/28-02:30:11.922 4b64 Compacted 2@1 + 7@2 files => 19487402 bytes
-2017/03/28-02:30:11.971 4b64 Delete type=2 #24
-2017/03/28-02:30:11.987 4b64 Delete type=2 #25
-2017/03/28-02:30:11.996 4b64 Delete type=2 #26
-2017/03/28-02:30:12.002 4b64 Delete type=2 #27
-2017/03/28-02:30:12.009 4b64 Delete type=2 #28
-2017/03/28-02:30:12.010 4b64 Delete type=2 #29
-2017/03/28-02:30:12.014 4b64 Delete type=2 #47
-2017/03/28-02:30:12.015 4b64 Delete type=2 #56
-2017/03/28-02:30:12.015 4b64 Delete type=2 #57
-2017/03/28-02:30:12.016 4b64 compacted to: files[ 0 1 12 0 0 0 0 ]
-2017/03/28-02:36:37.993 4b64 Compacting 1@1 + 2@2 files
-2017/03/28-02:36:38.186 4b64 Generated table #68: 851 keys, 3247198 bytes
-2017/03/28-02:36:38.246 4b64 Generated table #69: 324 keys, 122838 bytes
-2017/03/28-02:36:38.246 4b64 Compacted 1@1 + 2@2 files => 3370036 bytes
-2017/03/28-02:36:38.270 4b64 Delete type=2 #49
-2017/03/28-02:36:38.271 4b64 Delete type=2 #50
-2017/03/28-02:36:38.271 4b64 Delete type=2 #58
-2017/03/28-02:36:38.272 4b64 compacted to: files[ 0 0 12 0 0 0 0 ]
+2017/03/29-01:27:25.189 27dc Recovering log #75
+2017/03/29-01:27:25.196 27dc Level-0 table #78: started
+2017/03/29-01:27:25.326 27dc Level-0 table #78: 3234648 bytes OK
+2017/03/29-01:27:25.412 27dc Delete type=0 #75
+2017/03/29-01:27:25.413 27dc Delete type=3 #70
+2017/03/29-01:28:27.923 1fec Compacting 2@0 + 2@1 files
+2017/03/29-01:28:27.943 1fec Generated table #80: 13 keys, 2656 bytes
+2017/03/29-01:28:27.986 1fec Generated table #81: 452 keys, 184706 bytes
+2017/03/29-01:28:27.986 1fec Compacted 2@0 + 2@1 files => 187362 bytes
+2017/03/29-01:28:28.007 1fec Delete type=2 #73
+2017/03/29-01:28:28.008 1fec Delete type=2 #74
+2017/03/29-01:28:28.008 1fec Delete type=2 #76
+2017/03/29-01:28:28.008 1fec Delete type=2 #78
+2017/03/29-01:28:28.009 1fec compacted to: files[ 0 2 12 0 0 0 0 ]

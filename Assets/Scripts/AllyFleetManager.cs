@@ -20,7 +20,7 @@ public class AllyFleetManager : MonoBehaviour
         {
             allyArray[i] = Instantiate(Resources.Load("Prefabs/Ally")) as GameObject;
             allyArray[i].name = "Ally " + (i + 1);
-            allyArray[i].transform.position = new Vector3(Random.Range(-100, 100), Random.Range(-50, 50), Random.Range(-100, 100));
+            allyArray[i].transform.position = new Vector3(Random.Range(transform.position.x-100, transform.position.x+100), Random.Range(transform.position.y - 50, transform.position.y+50), Random.Range(transform.position.z - 100, transform.position.z+100));
             allyArray[i].transform.SetParent(transform);
         }
     }
