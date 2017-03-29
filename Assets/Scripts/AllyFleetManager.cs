@@ -29,30 +29,35 @@ public class AllyFleetManager : MonoBehaviour
     {
         if (GlobalController.instance.Player.GetComponent<PlayerShipController>().FormationModeActive)
         {
-            for (int i = 0; i < GlobalController.instance.Player.transform.FindChild("FormationPoints").childCount; i++)
+            HandleFormation();
+        }
+    }
+
+    void HandleFormation()
+    {
+        for (int i = 0; i < GlobalController.instance.Player.transform.FindChild("FormationPoints").childCount; i++)
+        {
+            if (
+                GlobalController.instance.Player.transform.FindChild("FormationPoints")
+                    .transform.GetChild(i)
+                    .GetComponent<FormationPointController>()
+                    .IsClear())
             {
-                if (
-                    GlobalController.instance.Player.transform.FindChild("FormationPoints")
+                GlobalController.instance.Player.transform.FindChild("FormationPoints")
+                        .transform.GetChild(i)
+                        .GetComponent<FormationPointController>().currentOccupyingShip =
+                    allyArray[ShipClosestToPlayer()];
+                GlobalController.instance.Player.transform.FindChild("FormationPoints")
+                        .transform.GetChild(i)
+                        .GetComponent<FormationPointController>().currentOccupyingShip.GetComponent<AIShipController>().belongsToFormation
+                    = true;
+                GlobalController.instance.Player.transform.FindChild("FormationPoints")
                         .transform.GetChild(i)
                         .GetComponent<FormationPointController>()
-                        .IsClear())
-                {
+                        .currentOccupyingShip.GetComponent<AIShipController>()
+                        .PointBeingPursued =
                     GlobalController.instance.Player.transform.FindChild("FormationPoints")
-                            .transform.GetChild(i)
-                            .GetComponent<FormationPointController>().currentOccupyingShip =
-                        allyArray[ShipClosestToPlayer()];
-                    GlobalController.instance.Player.transform.FindChild("FormationPoints")
-                            .transform.GetChild(i)
-                            .GetComponent<FormationPointController>().currentOccupyingShip.GetComponent<AIShipController>().belongsToFormation
-                        = true;
-                    GlobalController.instance.Player.transform.FindChild("FormationPoints")
-                            .transform.GetChild(i)
-                            .GetComponent<FormationPointController>()
-                            .currentOccupyingShip.GetComponent<AIShipController>()
-                            .PointBeingPursued =
-                        GlobalController.instance.Player.transform.FindChild("FormationPoints")
-                            .transform.GetChild(i).gameObject;
-                }
+                        .transform.GetChild(i).gameObject;
             }
         }
     }

@@ -22,9 +22,4 @@ public class EnemyFleetController : MonoBehaviour {
             enemyArray[i].transform.SetParent(transform);
         }
     }
-
-    void Update()
-    {
-
-    }
 }

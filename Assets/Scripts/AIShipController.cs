@@ -134,6 +134,7 @@ public class AIShipController : MonoBehaviour
                     rotationSpeed * Time.deltaTime);
                 Speed = GlobalController.instance.Player.GetComponent<PlayerShipController>().Speed;
             }
+
             ApplyRules();
         }
         else
