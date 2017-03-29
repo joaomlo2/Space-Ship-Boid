@@ -85,7 +85,7 @@ public class AIShipController : MonoBehaviour
                     if (GlobalController.instance.Player.GetComponent<PlayerShipController>().FormationModeActive &&
             belongsToFormation)
                     {
-                        CheckIfIsInPosition();
+                        //CheckIfIsInPosition();
                         GoalPosition = PointBeingPursued.transform.position;
                     }
                 }
@@ -160,6 +160,7 @@ public class AIShipController : MonoBehaviour
 
     void Pursue()
     {
+
     }
 
     void CheckIfIsInPosition()
