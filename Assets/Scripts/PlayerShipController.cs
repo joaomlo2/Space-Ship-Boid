@@ -24,16 +24,37 @@ public class PlayerShipController : MonoBehaviour
 
     public float DebugLineLength = 3.0f;
 
+	//Obstacle Avoidance
+	public Vector3 GoalPosition;
+	private GameObject PointBeingPursued=null;
+	private Vector3 PriorityGoalPosition = Vector3.zero;
+
+	private Ray _desiredPath;
+	private bool _obstacleDetected = false;
+	private float _candidateRotationIncrement=1f;
+	private CandidateDirection[] _candidateDirections;
+	private float _lineOfSightSize;
+
+	struct CandidateDirection{
+		public Transform direction;
+		public bool isValid;
+	}
+
     void Awake()
     {
         FormationModeActive = false;
         previouslySelectedFormation = SelectedFormation;
     }
+	void Start()
+	{
+		_InitializeAuxiliaryAvoidanceStructures ();
+	}
 
 	void Update ()
     {
         ProcessMovement();
         FormationController();
+		_CheckForObstacles ();
     }
 
     void FormationController()
@@ -113,12 +134,82 @@ public class PlayerShipController : MonoBehaviour
     //Gizmos Stuff
     void OnDrawGizmos()
     {
-        DrawForwardVector();
+        _DrawForwardVector();
+		_DrawCandidates ();
     }
 
-    void DrawForwardVector()
+    void _DrawForwardVector()
     {
-        Gizmos.color = Color.white;
-        Gizmos.DrawLine(transform.position, transform.position + (DebugLineLength * transform.forward));
+		Debug.DrawLine (transform.position, transform.position + (transform.forward * _lineOfSightSize),Color.magenta);
     }
+
+
+	//Obstacle Detection Stuff
+
+	private void _InitializeAuxiliaryAvoidanceStructures()
+	{
+		_candidateDirections = new CandidateDirection[4];
+		for (int i = 0; i < _candidateDirections.Length; i++) {
+			_candidateDirections [i] = new CandidateDirection {
+				direction = transform,
+				isValid = false
+			};
+		}
+	}
+
+	private void _CheckForObstacles(){
+		RaycastHit hit;
+		_lineOfSightSize = 10+(2 * Speed);
+		_desiredPath = new Ray (transform.position, GoalPosition);
+		if (Physics.Raycast (_desiredPath, out hit, _lineOfSightSize)) {
+			if (hit.collider.gameObject != PointBeingPursued) {
+				if (_IsThereAnyWayAround ()) {
+					PriorityGoalPosition = _GetWayAround ();
+					_InitializeAuxiliaryAvoidanceStructures ();
+				} else {
+					_UpdateAuxiliaryAvoidanceStructures ();
+				}
+			}
+		} else {
+			PriorityGoalPosition = Vector3.zero;
+		}
+	}
+
+	private void _DrawCandidates(){
+		Debug.DrawLine (transform.position, transform.position + (_candidateDirections[0].direction.forward * _lineOfSightSize),Color.white);
+		Debug.DrawLine (transform.position, transform.position + (_candidateDirections[1].direction.forward * _lineOfSightSize),Color.blue);
+		Debug.DrawLine (transform.position, transform.position + (_candidateDirections[2].direction.forward * _lineOfSightSize),Color.yellow);
+		Debug.DrawLine (transform.position, transform.position + (_candidateDirections[3].direction.forward * _lineOfSightSize),Color.cyan);
+	}
+
+	private void _UpdateAuxiliaryAvoidanceStructures()
+	{
+		_candidateDirections [0].direction.Rotate (-_candidateRotationIncrement * Time.deltaTime, 0, 0);
+		_candidateDirections [1].direction.Rotate (_candidateRotationIncrement * Time.deltaTime, 0, 0);
+		_candidateDirections [2].direction.Rotate (0, _candidateRotationIncrement * Time.deltaTime, 0);
+		_candidateDirections [3].direction.Rotate (0, -_candidateRotationIncrement * Time.deltaTime, 0);
+	}
+	private bool _IsThereAnyWayAround()
+	{
+		for (int i = 0; i < _candidateDirections.Length; i++) {
+			Ray r = new Ray (transform.position, _candidateDirections [i].direction.forward);
+			RaycastHit auxHit;
+			if (Physics.Raycast (r, out auxHit, _lineOfSightSize)) {
+				_candidateDirections [i].isValid = false;
+			} else {
+				_candidateDirections [i].isValid = true;
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private Vector3 _GetWayAround()
+	{
+		for (int i = 0; i < _candidateDirections.Length; i++) {
+			if (_candidateDirections [i].isValid)
+				return _candidateDirections [i].direction.forward * 150;
+		}
+		return Vector3.zero;
+	}
 }

@@ -1,13 +1,91 @@
-2017/03/29-01:36:20.181 337c Recovering log #79
-2017/03/29-01:36:20.183 337c Level-0 table #83: started
-2017/03/29-01:36:20.329 337c Level-0 table #83: 1138990 bytes OK
-2017/03/29-01:36:20.396 337c Delete type=0 #79
-2017/03/29-01:36:20.396 337c Delete type=3 #77
-2017/03/29-01:36:28.545 2804 Compacting 1@0 + 2@1 files
-2017/03/29-01:36:28.589 2804 Generated table #85: 13 keys, 2656 bytes
-2017/03/29-01:36:28.645 2804 Generated table #86: 454 keys, 197208 bytes
-2017/03/29-01:36:28.645 2804 Compacted 1@0 + 2@1 files => 199864 bytes
-2017/03/29-01:36:28.680 2804 Delete type=2 #80
-2017/03/29-01:36:28.680 2804 Delete type=2 #81
-2017/03/29-01:36:28.680 2804 Delete type=2 #83
-2017/03/29-01:36:28.680 2804 compacted to: files[ 0 2 12 0 0 0 0 ]
+2017/05/05-15:49:33.557 30e8 Recovering log #84
+2017/05/05-15:49:33.568 30e8 Level-0 table #88: started
+2017/05/05-15:49:33.707 30e8 Level-0 table #88: 920980 bytes OK
+2017/05/05-15:49:33.785 30e8 Delete type=0 #84
+2017/05/05-15:49:33.785 30e8 Delete type=3 #82
+2017/05/05-15:49:40.163 3f4 Level-0 table #91: started
+2017/05/05-15:49:40.357 3f4 Level-0 table #91: 3197832 bytes OK
+2017/05/05-15:49:40.390 3f4 Delete type=0 #89
+2017/05/05-15:49:40.630 3f4 Level-0 table #93: started
+2017/05/05-15:49:40.749 3f4 Level-0 table #93: 3354786 bytes OK
+2017/05/05-15:49:40.771 3f4 Delete type=0 #90
+2017/05/05-15:49:42.988 3f4 Level-0 table #95: started
+2017/05/05-15:49:43.141 3f4 Level-0 table #95: 3655106 bytes OK
+2017/05/05-15:49:43.163 3f4 Delete type=0 #92
+2017/05/05-15:49:43.163 3f4 Compacting 4@0 + 2@1 files
+2017/05/05-15:49:43.281 3f4 Level-0 table #98: started
+2017/05/05-15:49:43.457 3f4 Level-0 table #98: 3984067 bytes OK
+2017/05/05-15:49:43.491 3f4 Delete type=0 #94
+2017/05/05-15:49:43.724 3f4 Generated table #97: 15433 keys, 2167788 bytes
+2017/05/05-15:49:43.724 3f4 Level-0 table #100: started
+2017/05/05-15:49:43.826 3f4 Level-0 table #100: 3904241 bytes OK
+2017/05/05-15:49:43.857 3f4 Delete type=0 #96
+2017/05/05-15:49:43.962 3f4 Level-0 table #103: started
+2017/05/05-15:49:44.076 3f4 Level-0 table #103: 4015599 bytes OK
+2017/05/05-15:49:44.132 3f4 Delete type=0 #99
+2017/05/05-15:49:44.227 3f4 Generated table #102: 8901 keys, 2164125 bytes
+2017/05/05-15:49:44.318 3f4 Generated table #104: 11038 keys, 2178337 bytes
+2017/05/05-15:49:44.389 3f4 Generated table #105: 5055 keys, 1065560 bytes
+2017/05/05-15:49:44.491 3f4 Generated table #106: 3893 keys, 2164566 bytes
+2017/05/05-15:49:44.547 3f4 Generated table #107: 964 keys, 661040 bytes
+2017/05/05-15:49:44.547 3f4 Compacted 4@0 + 2@1 files => 10401416 bytes
+2017/05/05-15:49:44.573 3f4 Delete type=2 #85
+2017/05/05-15:49:44.573 3f4 Delete type=2 #86
+2017/05/05-15:49:44.573 3f4 Delete type=2 #88
+2017/05/05-15:49:44.573 3f4 Delete type=2 #91
+2017/05/05-15:49:44.574 3f4 Delete type=2 #93
+2017/05/05-15:49:44.574 3f4 Delete type=2 #95
+2017/05/05-15:49:44.574 3f4 compacted to: files[ 3 6 12 0 0 0 0 ]
+2017/05/05-15:49:46.245 3f4 Compacting 3@0 + 6@1 files
+2017/05/05-15:49:46.337 3f4 Generated table #108: 15436 keys, 2163795 bytes
+2017/05/05-15:49:46.407 3f4 Generated table #109: 5462 keys, 2157573 bytes
+2017/05/05-15:49:46.472 3f4 Generated table #110: 5087 keys, 2159887 bytes
+2017/05/05-15:49:46.558 3f4 Generated table #111: 11335 keys, 2169321 bytes
+2017/05/05-15:49:46.632 3f4 Generated table #112: 10582 keys, 2184910 bytes
+2017/05/05-15:49:46.682 3f4 Generated table #113: 569 keys, 118139 bytes
+2017/05/05-15:49:46.782 3f4 Generated table #114: 4006 keys, 2166365 bytes
+2017/05/05-15:49:46.941 3f4 Generated table #115: 3359 keys, 2158604 bytes
+2017/05/05-15:49:47.035 3f4 Generated table #116: 3458 keys, 2165189 bytes
+2017/05/05-15:49:47.132 3f4 Generated table #117: 2787 keys, 2171360 bytes
+2017/05/05-15:49:47.249 3f4 Generated table #118: 3325 keys, 2163653 bytes
+2017/05/05-15:49:47.314 3f4 Generated table #119: 878 keys, 510766 bytes
+2017/05/05-15:49:47.314 3f4 Compacted 3@0 + 6@1 files => 22289562 bytes
+2017/05/05-15:49:47.366 3f4 Delete type=2 #97
+2017/05/05-15:49:47.366 3f4 Delete type=2 #98
+2017/05/05-15:49:47.367 3f4 Delete type=2 #100
+2017/05/05-15:49:47.367 3f4 Delete type=2 #102
+2017/05/05-15:49:47.367 3f4 Delete type=2 #103
+2017/05/05-15:49:47.367 3f4 Delete type=2 #104
+2017/05/05-15:49:47.368 3f4 Delete type=2 #105
+2017/05/05-15:49:47.368 3f4 Delete type=2 #106
+2017/05/05-15:49:47.368 3f4 Delete type=2 #107
+2017/05/05-15:49:47.368 3f4 compacted to: files[ 0 12 12 0 0 0 0 ]
+2017/05/05-15:49:47.368 3f4 Expanding@1 1+2 to 6+2
+2017/05/05-15:49:47.368 3f4 Compacting 6@1 + 2@2 files
+2017/05/05-15:49:47.424 3f4 Generated table #120: 3567 keys, 2162059 bytes
+2017/05/05-15:49:47.492 3f4 Generated table #121: 3371 keys, 2160625 bytes
+2017/05/05-15:49:47.560 3f4 Generated table #122: 3390 keys, 2166256 bytes
+2017/05/05-15:49:47.620 3f4 Generated table #123: 2786 keys, 2168141 bytes
+2017/05/05-15:49:47.666 3f4 Generated table #124: 3301 keys, 2164034 bytes
+2017/05/05-15:49:47.724 3f4 Generated table #125: 255 keys, 2720868 bytes
+2017/05/05-15:49:47.746 3f4 Generated table #126: 298 keys, 114379 bytes
+2017/05/05-15:49:47.746 3f4 Compacted 6@1 + 2@2 files => 13656362 bytes
+2017/05/05-15:49:47.768 3f4 Delete type=2 #68
+2017/05/05-15:49:47.769 3f4 Delete type=2 #69
+2017/05/05-15:49:47.769 3f4 Delete type=2 #114
+2017/05/05-15:49:47.769 3f4 Delete type=2 #115
+2017/05/05-15:49:47.769 3f4 Delete type=2 #116
+2017/05/05-15:49:47.770 3f4 Delete type=2 #117
+2017/05/05-15:49:47.770 3f4 Delete type=2 #118
+2017/05/05-15:49:47.770 3f4 Delete type=2 #119
+2017/05/05-15:49:47.770 3f4 compacted to: files[ 0 6 17 0 0 0 0 ]
+2017/05/05-15:49:47.770 3f4 Compacting 1@1 + 4@2 files
+2017/05/05-15:49:47.827 3f4 Generated table #127: 3564 keys, 2164238 bytes
+2017/05/05-15:49:47.849 3f4 Generated table #128: 85 keys, 39526 bytes
+2017/05/05-15:49:47.849 3f4 Compacted 1@1 + 4@2 files => 2203764 bytes
+2017/05/05-15:49:47.875 3f4 Delete type=2 #59
+2017/05/05-15:49:47.875 3f4 Delete type=2 #60
+2017/05/05-15:49:47.875 3f4 Delete type=2 #61
+2017/05/05-15:49:47.875 3f4 Delete type=2 #62
+2017/05/05-15:49:47.875 3f4 Delete type=2 #108
+2017/05/05-15:49:47.876 3f4 compacted to: files[ 0 5 15 0 0 0 0 ]

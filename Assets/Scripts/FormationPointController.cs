@@ -7,21 +7,18 @@ public class FormationPointController : MonoBehaviour
     public GameObject currentOccupyingShip;
 
     private Quaternion _previousPlayerShipRotation;
+    private Quaternion  targetRot;
 
     void Update()
     {
-        if (GlobalController.instance.Player.transform.rotation!=_previousPlayerShipRotation)
+        if (GlobalController.instance.Player.transform.rotation != _previousPlayerShipRotation)
         {
             transform.localRotation = GlobalController.instance.Player.transform.rotation;
             _previousPlayerShipRotation = GlobalController.instance.Player.transform.rotation;
         }
         else
         {
-            transform.localRotation = Quaternion.SlerpUnclamped(transform.localRotation, Quaternion.identity, 0.1f);
-        }
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            transform.localRotation=Quaternion.identity;
+            transform.localRotation = Quaternion.Slerp(transform.localRotation, Quaternion.identity, 0.1f);
         }
     }
 

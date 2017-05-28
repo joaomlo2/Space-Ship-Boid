@@ -14,21 +14,27 @@ public class AIShipController : MonoBehaviour
     };
 
     public ShipState currentState;
+    public float MaxSpeed = 50.0f;
     public float Speed = 3.0f;
-    public float rotationSpeed = 2.0f;
+    public float rotationSpeed = 0.1f;// inicial é 3.0f
     private Vector3 averageDirection;
     private Vector3 averagePosition;
     private float neighbourDistance = 5.0f;
 
     public int Faction;//1-Player Faction 2-Enemy Faction
 
+    //public int Health = 100;
+
     public bool isInPosition;
+    private float _slowingDownRadius = 5f;
     public bool belongsToFormation = false;
     public GameObject PointBeingPursued;
     private Vector3 GoalPosition;
     private float _goalResetTimer = 0;
 
     private bool turning = false;
+
+	private float _lineOfSightSize=100;
 
     void Start()
     {
@@ -38,6 +44,7 @@ public class AIShipController : MonoBehaviour
 
     void OnDrawGizmos()
     {
+		DrawLineOfSight ();
         if (Faction == 1)
         {
             if (belongsToFormation)
@@ -73,6 +80,7 @@ public class AIShipController : MonoBehaviour
     {
         HandleFactionBasedBehaviour();
         HandleMovement();
+		CheckForObstacles ();
     }
 
     private void HandleFactionBasedBehaviour()
@@ -85,7 +93,7 @@ public class AIShipController : MonoBehaviour
                     if (GlobalController.instance.Player.GetComponent<PlayerShipController>().FormationModeActive &&
             belongsToFormation)
                     {
-                        //CheckIfIsInPosition();
+                        CheckIfIsInPosition();
                         GoalPosition = PointBeingPursued.transform.position;
                     }
                 }
@@ -94,7 +102,7 @@ public class AIShipController : MonoBehaviour
                 Pursue();
                 break;
             case ShipState.Evading:
-                Flee();
+                Evade();
                 break;
             case ShipState.Wandering:
                 Wander();
@@ -119,20 +127,19 @@ public class AIShipController : MonoBehaviour
             {
                 transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction),
                     rotationSpeed * Time.deltaTime);
-                if (!belongsToFormation)
-                    Speed = UnityEngine.Random.Range(10.0f, 50.0f);
-                else
-                {
-                    Speed = UnityEngine.Random.Range(10.0f, 50.0f);
-                }
+                Speed = UnityEngine.Random.Range(10.0f, MaxSpeed);
             }
             else
             {
-                transform.rotation = Quaternion.Slerp(transform.rotation,
-                    Quaternion.LookRotation(PointBeingPursued.transform.forward,
-                        PointBeingPursued.transform.up),
-                    rotationSpeed * Time.deltaTime);
-                Speed = GlobalController.instance.Player.GetComponent<PlayerShipController>().Speed;
+
+                //O FORMATION POINT É QUE VAI TER DE FICAR ENCARREGADO DISTO
+
+                //transform.rotation = Quaternion.Slerp(transform.rotation,
+                //    Quaternion.LookRotation(PointBeingPursued.transform.forward,
+                //        PointBeingPursued.transform.up),
+                //    rotationSpeed * Time.deltaTime);
+                //transform.rotation = Quaternion.Slerp(transform.rotation, PointBeingPursued.transform.rotation, rotationSpeed * Time.deltaTime);
+                //Speed = GlobalController.instance.Player.GetComponent<PlayerShipController>().Speed-0.1f;
             }
 
             ApplyRules();
@@ -145,7 +152,7 @@ public class AIShipController : MonoBehaviour
         transform.Translate(0, 0, Time.deltaTime * Speed);
     }
 
-    void Flee()
+    void Evade()
     {
         if (_goalResetTimer >= 5)
         {
@@ -165,7 +172,7 @@ public class AIShipController : MonoBehaviour
 
     void CheckIfIsInPosition()
     {
-        isInPosition = Vector3.Distance(transform.position, PointBeingPursued.transform.position) <= 6f;
+        isInPosition = Vector3.Distance(transform.position, PointBeingPursued.transform.position) <= _slowingDownRadius;
     }
 
     void Wander()
@@ -178,6 +185,46 @@ public class AIShipController : MonoBehaviour
         else
         {
             _goalResetTimer += Time.deltaTime;
+        }
+
+    }
+
+    void ShouldIStayOrShouldIGo()
+    {
+        int closestShipindex = -1;
+        float minDistanceFound = float.MaxValue;
+        switch (Faction)
+        {
+            case 1:
+                for (int i = 0; i < GlobalController.instance.EnemiesHolder.transform.childCount; i++)
+                {
+                    if (
+                        Vector3.Distance(transform.position,
+                            GlobalController.instance.EnemiesHolder.transform.GetChild(i).position) > minDistanceFound)
+                    {
+                        minDistanceFound = Vector3.Distance(transform.position,
+                            GlobalController.instance.EnemiesHolder.transform.GetChild(i).position);
+                        closestShipindex = i;
+                    }
+                }
+                PointBeingPursued =
+                    GlobalController.instance.EnemiesHolder.transform.GetChild(closestShipindex).gameObject;
+                break;
+            case 2:
+                for (int i = 0; i < GlobalController.instance.AlliesHolder.transform.childCount; i++)
+                {
+                    if (
+                        Vector3.Distance(transform.position,
+                            GlobalController.instance.AlliesHolder.transform.GetChild(i).position) > minDistanceFound)
+                    {
+                        minDistanceFound = Vector3.Distance(transform.position,
+                            GlobalController.instance.AlliesHolder.transform.GetChild(i).position);
+                        closestShipindex = i;
+                    }
+                }
+                PointBeingPursued =
+                    GlobalController.instance.AlliesHolder.transform.GetChild(closestShipindex).gameObject;
+                break;
         }
     }
 
@@ -221,4 +268,17 @@ public class AIShipController : MonoBehaviour
             }
         }
     }
+
+	void DrawLineOfSight(){
+		Debug.DrawLine (transform.position, transform.position + (transform.forward * _lineOfSightSize),Color.magenta);
+	}
+
+	void CheckForObstacles(){
+		//Pathfinding Ray
+		Ray r = new Ray (transform.position, transform.forward);
+		RaycastHit hit;
+		if (Physics.Raycast (r, out hit, _lineOfSightSize)) {
+			
+		}
+	}
 }
