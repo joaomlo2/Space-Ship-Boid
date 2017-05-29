@@ -24,26 +24,32 @@ public class PlayerShipController : MonoBehaviour
 
     public float DebugLineLength = 3.0f;
 
-	//Obstacle Avoidance
+	//Obstacle Avoidance Testing Presets
 	public Vector3 GoalPosition;
-	private GameObject PointBeingPursued=null;
-	private Vector3 PriorityGoalPosition = Vector3.zero;
-
+	public GameObject PointBeingPursued=null;
+	//Obstacle Avoidance
+	private int _chosenPathIndex;
+	private bool isAvoidingObstacle=false;
+	public Vector3 PriorityGoalPosition = Vector3.zero;
+	private bool _candidatesInitialized = false;
 	private Ray _desiredPath;
 	private bool _obstacleDetected = false;
-	private float _candidateRotationIncrement=1f;
+	private float _candidateRotationIncrement=20f;
+	private float _candidateRotationIncrementCompensation=50f;
 	private CandidateDirection[] _candidateDirections;
+	private float[] _candidatePointsDistanceToMainGoal;
 	private float _lineOfSightSize;
 
-	struct CandidateDirection{
-		public Transform direction;
+	class CandidateDirection{
+		public GameObject directionHolder;
 		public bool isValid;
+		public int OppositeIndex;
 	}
 
     void Awake()
     {
         FormationModeActive = false;
-        previouslySelectedFormation = SelectedFormation;
+		previouslySelectedFormation = SelectedFormation;
     }
 	void Start()
 	{
@@ -54,7 +60,10 @@ public class PlayerShipController : MonoBehaviour
     {
         ProcessMovement();
         FormationController();
-		_CheckForObstacles ();
+		GoalPosition = PointBeingPursued.transform.position;
+
+		//if (!isAvoidingObstacle)
+			_CheckForObstacles ();
     }
 
     void FormationController()
@@ -134,8 +143,12 @@ public class PlayerShipController : MonoBehaviour
     //Gizmos Stuff
     void OnDrawGizmos()
     {
-        _DrawForwardVector();
+        //_DrawForwardVector();
 		_DrawCandidates ();
+		Debug.DrawLine (transform.position,transform.position+((GoalPosition - transform.position).normalized)*_lineOfSightSize,Color.green);
+		if(isAvoidingObstacle){
+			Debug.DrawLine(transform.position,PriorityGoalPosition,Color.red);
+		}
     }
 
     void _DrawForwardVector()
@@ -149,67 +162,169 @@ public class PlayerShipController : MonoBehaviour
 	private void _InitializeAuxiliaryAvoidanceStructures()
 	{
 		_candidateDirections = new CandidateDirection[4];
+		_candidatePointsDistanceToMainGoal=new float[4];
+		_chosenPathIndex = -1;
 		for (int i = 0; i < _candidateDirections.Length; i++) {
 			_candidateDirections [i] = new CandidateDirection {
-				direction = transform,
+				directionHolder = new GameObject(),
 				isValid = false
 			};
+			_candidateDirections [i].directionHolder.transform.parent = transform;
+			_candidatePointsDistanceToMainGoal[i] = -1;
+			switch (i) {
+			case 0:
+				_candidateDirections [i].OppositeIndex = 1;
+				break;
+			case 1:
+				_candidateDirections [i].OppositeIndex = 0;
+				break;
+			case 2:
+				_candidateDirections [i].OppositeIndex = 3;
+				break;
+			case 3:
+				_candidateDirections [i].OppositeIndex = 2;
+				break;
+			}
 		}
+		_candidatesInitialized = true;
 	}
 
 	private void _CheckForObstacles(){
 		RaycastHit hit;
-		_lineOfSightSize = 10+(2 * Speed);
-		_desiredPath = new Ray (transform.position, GoalPosition);
+		_lineOfSightSize = 20+(2 * Speed);
+		//_desiredPath=new Ray(transform.position,transform.position+((GoalPosition-transform.position).normalized*_lineOfSightSize));
+		_desiredPath = new Ray (transform.position, transform.position + (transform.forward * _lineOfSightSize));
+		_candidateRotationIncrement = 10 * Speed;
 		if (Physics.Raycast (_desiredPath, out hit, _lineOfSightSize)) {
 			if (hit.collider.gameObject != PointBeingPursued) {
-				if (_IsThereAnyWayAround ()) {
-					PriorityGoalPosition = _GetWayAround ();
-					_InitializeAuxiliaryAvoidanceStructures ();
+				if (!isAvoidingObstacle) {
+					if (_ThereIsAWayAround ()) {
+						//PriorityGoalPosition = _ChooseWayAround ();
+						_ChoosePathToTake ();
+						isAvoidingObstacle = true;
+						//_InitializeAuxiliaryAvoidanceStructures ();
+					} else {
+						_UpdateAuxiliaryAvoidanceStructures (_candidateRotationIncrement);
+					}
 				} else {
-					_UpdateAuxiliaryAvoidanceStructures ();
+					_TurnShip ();
 				}
 			}
 		} else {
 			PriorityGoalPosition = Vector3.zero;
+			if (isAvoidingObstacle) {
+				isAvoidingObstacle = false;
+				_InitializeAuxiliaryAvoidanceStructures ();
+			}
 		}
 	}
 
 	private void _DrawCandidates(){
-		Debug.DrawLine (transform.position, transform.position + (_candidateDirections[0].direction.forward * _lineOfSightSize),Color.white);
-		Debug.DrawLine (transform.position, transform.position + (_candidateDirections[1].direction.forward * _lineOfSightSize),Color.blue);
-		Debug.DrawLine (transform.position, transform.position + (_candidateDirections[2].direction.forward * _lineOfSightSize),Color.yellow);
-		Debug.DrawLine (transform.position, transform.position + (_candidateDirections[3].direction.forward * _lineOfSightSize),Color.cyan);
+		if (_candidatesInitialized) {
+			Debug.DrawLine (transform.position, transform.position + (_candidateDirections [0].directionHolder.transform.forward * _lineOfSightSize), Color.white);
+			Debug.DrawLine (transform.position, transform.position + (_candidateDirections [1].directionHolder.transform.forward * _lineOfSightSize), Color.blue);
+			Debug.DrawLine (transform.position, transform.position + (_candidateDirections [2].directionHolder.transform.forward * _lineOfSightSize), Color.yellow);
+			Debug.DrawLine (transform.position, transform.position + (_candidateDirections [3].directionHolder.transform.forward * _lineOfSightSize), Color.cyan);
+		}
 	}
 
-	private void _UpdateAuxiliaryAvoidanceStructures()
+	private void _UpdateAuxiliaryAvoidanceStructures(float valueToIncrement)
 	{
-		_candidateDirections [0].direction.Rotate (-_candidateRotationIncrement * Time.deltaTime, 0, 0);
-		_candidateDirections [1].direction.Rotate (_candidateRotationIncrement * Time.deltaTime, 0, 0);
-		_candidateDirections [2].direction.Rotate (0, _candidateRotationIncrement * Time.deltaTime, 0);
-		_candidateDirections [3].direction.Rotate (0, -_candidateRotationIncrement * Time.deltaTime, 0);
+		_candidateDirections [0].directionHolder.transform.Rotate (-valueToIncrement * Time.deltaTime, 0, 0);
+		_candidateDirections [1].directionHolder.transform.Rotate (valueToIncrement * Time.deltaTime, 0, 0);
+		_candidateDirections [2].directionHolder.transform.Rotate (0, valueToIncrement * Time.deltaTime, 0);
+		_candidateDirections [3].directionHolder.transform.Rotate (0, -valueToIncrement * Time.deltaTime, 0);
+		_candidateRotationIncrementCompensation += 5;
 	}
-	private bool _IsThereAnyWayAround()
+	private bool _ThereIsAWayAround()
 	{
 		for (int i = 0; i < _candidateDirections.Length; i++) {
-			Ray r = new Ray (transform.position, _candidateDirections [i].direction.forward);
+			Ray r = new Ray (transform.position, _candidateDirections [i].directionHolder.transform.forward);
 			RaycastHit auxHit;
-			if (Physics.Raycast (r, out auxHit, _lineOfSightSize)) {
+			if (Physics.Raycast (r, out auxHit, _lineOfSightSize+_candidateRotationIncrementCompensation)) {
 				_candidateDirections [i].isValid = false;
 			} else {
 				_candidateDirections [i].isValid = true;
+				_candidatePointsDistanceToMainGoal [i] = Vector3.Distance (transform.position + (_candidateDirections [i].directionHolder.transform.forward * _lineOfSightSize), GoalPosition);
 				return true;
 			}
 		}
 		return false;
 	}
 
-	private Vector3 _GetWayAround()
+	//Método do forçar de viragem
+
+	private void _ChoosePathToTake()
 	{
+		float shortestDistance = float.MaxValue;
 		for (int i = 0; i < _candidateDirections.Length; i++) {
-			if (_candidateDirections [i].isValid)
-				return _candidateDirections [i].direction.forward * 150;
+			if (_candidateDirections [i].isValid && _candidatePointsDistanceToMainGoal [i] < shortestDistance) {
+				_chosenPathIndex = i;
+				shortestDistance = _candidatePointsDistanceToMainGoal [i];
+			}
 		}
-		return Vector3.zero;
 	}
+
+	private void _TurnShip(){
+		if (_chosenPathIndex != -1) {
+			switch (_chosenPathIndex) {
+			case 0:
+				Debug.Log ("Chosen UP path");
+				transform.Rotate(-TurningSpeed*10*Time.deltaTime, 0.0f, 0.0f);
+				break;
+			case 1:
+				Debug.Log ("Chosen DOWN path");
+				transform.Rotate(TurningSpeed*10*Time.deltaTime, 0.0f, 0.0f);
+				break;
+			case 2:
+				Debug.Log ("Chosen RIGHT path");
+				transform.Rotate(0.0f, TurningSpeed*10*Time.deltaTime, 0.0f);
+				break;
+			case 3:
+				Debug.Log ("Chosen LEFT path");
+				transform.Rotate(0.0f, -TurningSpeed*10*Time.deltaTime, 0.0f);
+				break;
+			}
+		}
+	}
+
+//	//Método do cálculo do novo destino
+//	private Vector3 _ChooseWayAround()
+//	{
+//		float shortestDistance = float.MaxValue;
+//		int chosenPath = -1;
+//		for (int i = 0; i < _candidateDirections.Length; i++) {
+//			if (_candidateDirections [i].isValid && _candidatePointsDistanceToMainGoal [i] < shortestDistance) {
+//				chosenPath = i;
+//				shortestDistance = _candidatePointsDistanceToMainGoal [i];
+//			}
+//		}
+//		if (chosenPath != -1) {
+//			switch (chosenPath) {
+//			case 0:
+//				Debug.Log ("Chosen UP path");
+//				break;
+//			case 1:
+//				Debug.Log ("Chosen DOWN path");
+//				break;
+//			case 2:
+//				Debug.Log ("Chosen RIGHT path");
+//				break;
+//			case 3:
+//				Debug.Log ("Chosen LEFT path");
+//				break;
+//			}
+//			_UpdateAuxiliaryAvoidanceStructures (_candidateRotationIncrement * 10);
+//			return _candidateDirections[chosenPath].directionHolder.transform.forward * 10;
+//		}
+//		else {
+//			return Vector3.zero;
+//		}
+//	}
+//
+//	private void CheckIfPriorityPointWasReached()
+//	{
+//		if (Vector3.Distance (transform.position, PriorityGoalPosition) <= 2)
+//			isAvoidingObstacle = false;
+//	}
 }
