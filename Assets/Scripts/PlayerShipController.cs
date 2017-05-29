@@ -62,8 +62,7 @@ public class PlayerShipController : MonoBehaviour
         FormationController();
 		GoalPosition = PointBeingPursued.transform.position;
 
-		//if (!isAvoidingObstacle)
-			_CheckForObstacles ();
+		_CheckForObstacles ();
     }
 
     void FormationController()
@@ -143,12 +142,12 @@ public class PlayerShipController : MonoBehaviour
     //Gizmos Stuff
     void OnDrawGizmos()
     {
-        //_DrawForwardVector();
-		_DrawCandidates ();
-		Debug.DrawLine (transform.position,transform.position+((GoalPosition - transform.position).normalized)*_lineOfSightSize,Color.green);
-		if(isAvoidingObstacle){
-			Debug.DrawLine(transform.position,PriorityGoalPosition,Color.red);
-		}
+        _DrawForwardVector();
+		//_DrawCandidates ();
+		//Debug.DrawLine (transform.position,transform.position+((GoalPosition - transform.position).normalized)*_lineOfSightSize,Color.green);
+		//if(isAvoidingObstacle){
+		//	Debug.DrawLine(transform.position,PriorityGoalPosition,Color.red);
+		//}
     }
 
     void _DrawForwardVector()
@@ -170,6 +169,9 @@ public class PlayerShipController : MonoBehaviour
 				isValid = false
 			};
 			_candidateDirections [i].directionHolder.transform.parent = transform;
+			_candidateDirections [i].directionHolder.transform.forward = transform.forward;
+			_candidateDirections [i].directionHolder.transform.up = transform.up;
+			_candidateDirections [i].directionHolder.transform.right = transform.right;
 			_candidatePointsDistanceToMainGoal[i] = -1;
 			switch (i) {
 			case 0:
@@ -194,28 +196,30 @@ public class PlayerShipController : MonoBehaviour
 		_lineOfSightSize = 20+(2 * Speed);
 		//_desiredPath=new Ray(transform.position,transform.position+((GoalPosition-transform.position).normalized*_lineOfSightSize));
 		_desiredPath = new Ray (transform.position, transform.position + (transform.forward * _lineOfSightSize));
-		_candidateRotationIncrement = 10 * Speed;
+		_candidateRotationIncrement = 10 * (Speed*5);
 		if (Physics.Raycast (_desiredPath, out hit, _lineOfSightSize)) {
 			if (hit.collider.gameObject != PointBeingPursued) {
 				if (!isAvoidingObstacle) {
 					if (_ThereIsAWayAround ()) {
-						//PriorityGoalPosition = _ChooseWayAround ();
 						_ChoosePathToTake ();
 						isAvoidingObstacle = true;
-						//_InitializeAuxiliaryAvoidanceStructures ();
 					} else {
 						_UpdateAuxiliaryAvoidanceStructures (_candidateRotationIncrement);
 					}
-				} else {
-					_TurnShip ();
 				}
 			}
 		} else {
 			PriorityGoalPosition = Vector3.zero;
 			if (isAvoidingObstacle) {
 				isAvoidingObstacle = false;
-				_InitializeAuxiliaryAvoidanceStructures ();
 			}
+			_InitializeAuxiliaryAvoidanceStructures ();
+		}
+		if (isAvoidingObstacle) {
+			Ray oppositeCandidateRay = new Ray (transform.position, _candidateDirections [_candidateDirections [_chosenPathIndex].OppositeIndex].directionHolder.transform.forward);
+			RaycastHit oppositeCandidateHit;
+			if (Physics.Raycast (oppositeCandidateRay, out oppositeCandidateHit, (_lineOfSightSize + _candidateRotationIncrementCompensation)))
+				_TurnShip ();
 		}
 	}
 

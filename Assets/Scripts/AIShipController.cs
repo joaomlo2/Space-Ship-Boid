@@ -34,12 +34,30 @@ public class AIShipController : MonoBehaviour
 
     private bool turning = false;
 
-	private float _lineOfSightSize=100;
+	private float TurningSpeed=2f;
+	private int _chosenPathIndex;
+	private bool isAvoidingObstacle=false;
+	public Vector3 PriorityGoalPosition = Vector3.zero;
+	private bool _candidatesInitialized = false;
+	private Ray _desiredPath;
+	private bool _obstacleDetected = false;
+	private float _candidateRotationIncrement=20f;
+	private float _candidateRotationIncrementCompensation=50f;
+	private CandidateDirection[] _candidateDirections;
+	private float[] _candidatePointsDistanceToMainGoal;
+	private float _lineOfSightSize;
+
+	class CandidateDirection{
+		public GameObject directionHolder;
+		public bool isValid;
+		public int OppositeIndex;
+	}
 
     void Start()
     {
         currentState=ShipState.Wandering;
-        Speed = UnityEngine.Random.Range(10.0f, 50.0f);
+		Speed = UnityEngine.Random.Range(10.0f, 50.0f);
+		_InitializeAuxiliaryAvoidanceStructures ();
     }
 
     void OnDrawGizmos()
@@ -273,12 +291,137 @@ public class AIShipController : MonoBehaviour
 		Debug.DrawLine (transform.position, transform.position + (transform.forward * _lineOfSightSize),Color.magenta);
 	}
 
-	void CheckForObstacles(){
-		//Pathfinding Ray
-		Ray r = new Ray (transform.position, transform.forward);
+	private void _InitializeAuxiliaryAvoidanceStructures()
+	{
+		_candidateDirections = new CandidateDirection[4];
+		_candidatePointsDistanceToMainGoal=new float[4];
+		_chosenPathIndex = -1;
+		for (int i = 0; i < _candidateDirections.Length; i++) {
+			_candidateDirections [i] = new CandidateDirection {
+				directionHolder = new GameObject(),
+				isValid = false
+			};
+			_candidateDirections [i].directionHolder.transform.parent = transform;
+			_candidateDirections [i].directionHolder.transform.forward = transform.forward;
+			_candidateDirections [i].directionHolder.transform.up = transform.up;
+			_candidateDirections [i].directionHolder.transform.right = transform.right;
+			_candidatePointsDistanceToMainGoal[i] = -1;
+			switch (i) {
+			case 0:
+				_candidateDirections [i].OppositeIndex = 1;
+				break;
+			case 1:
+				_candidateDirections [i].OppositeIndex = 0;
+				break;
+			case 2:
+				_candidateDirections [i].OppositeIndex = 3;
+				break;
+			case 3:
+				_candidateDirections [i].OppositeIndex = 2;
+				break;
+			}
+		}
+		_candidatesInitialized = true;
+	}
+
+	private void _CheckForObstacles(){
 		RaycastHit hit;
-		if (Physics.Raycast (r, out hit, _lineOfSightSize)) {
-			
+		_lineOfSightSize = 20+(2 * Speed);
+		//_desiredPath=new Ray(transform.position,transform.position+((GoalPosition-transform.position).normalized*_lineOfSightSize));
+		_desiredPath = new Ray (transform.position, transform.position + (transform.forward * _lineOfSightSize));
+		_candidateRotationIncrement = 10 * (Speed*5);
+		if (Physics.Raycast (_desiredPath, out hit, _lineOfSightSize)) {
+			if (hit.collider.gameObject != PointBeingPursued) {
+				if (!isAvoidingObstacle) {
+					if (_ThereIsAWayAround ()) {
+						_ChoosePathToTake ();
+						isAvoidingObstacle = true;
+					} else {
+						_UpdateAuxiliaryAvoidanceStructures (_candidateRotationIncrement);
+					}
+				}
+			}
+		} else {
+			PriorityGoalPosition = Vector3.zero;
+			if (isAvoidingObstacle) {
+				isAvoidingObstacle = false;
+			}
+			_InitializeAuxiliaryAvoidanceStructures ();
+		}
+		if (isAvoidingObstacle) {
+			Ray oppositeCandidateRay = new Ray (transform.position, _candidateDirections [_candidateDirections [_chosenPathIndex].OppositeIndex].directionHolder.transform.forward);
+			RaycastHit oppositeCandidateHit;
+			if (Physics.Raycast (oppositeCandidateRay, out oppositeCandidateHit, (_lineOfSightSize + _candidateRotationIncrementCompensation)))
+				_TurnShip ();
+		}
+	}
+
+	private void _DrawCandidates(){
+		if (_candidatesInitialized) {
+			Debug.DrawLine (transform.position, transform.position + (_candidateDirections [0].directionHolder.transform.forward * _lineOfSightSize), Color.white);
+			Debug.DrawLine (transform.position, transform.position + (_candidateDirections [1].directionHolder.transform.forward * _lineOfSightSize), Color.blue);
+			Debug.DrawLine (transform.position, transform.position + (_candidateDirections [2].directionHolder.transform.forward * _lineOfSightSize), Color.yellow);
+			Debug.DrawLine (transform.position, transform.position + (_candidateDirections [3].directionHolder.transform.forward * _lineOfSightSize), Color.cyan);
+		}
+	}
+
+	private void _UpdateAuxiliaryAvoidanceStructures(float valueToIncrement)
+	{
+		_candidateDirections [0].directionHolder.transform.Rotate (-valueToIncrement * Time.deltaTime, 0, 0);
+		_candidateDirections [1].directionHolder.transform.Rotate (valueToIncrement * Time.deltaTime, 0, 0);
+		_candidateDirections [2].directionHolder.transform.Rotate (0, valueToIncrement * Time.deltaTime, 0);
+		_candidateDirections [3].directionHolder.transform.Rotate (0, -valueToIncrement * Time.deltaTime, 0);
+		_candidateRotationIncrementCompensation += 5;
+	}
+	private bool _ThereIsAWayAround()
+	{
+		for (int i = 0; i < _candidateDirections.Length; i++) {
+			Ray r = new Ray (transform.position, _candidateDirections [i].directionHolder.transform.forward);
+			RaycastHit auxHit;
+			if (Physics.Raycast (r, out auxHit, _lineOfSightSize+_candidateRotationIncrementCompensation)) {
+				_candidateDirections [i].isValid = false;
+			} else {
+				_candidateDirections [i].isValid = true;
+				_candidatePointsDistanceToMainGoal [i] = Vector3.Distance (transform.position + (_candidateDirections [i].directionHolder.transform.forward * _lineOfSightSize), GoalPosition);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	//Método do forçar de viragem
+
+	private void _ChoosePathToTake()
+	{
+		float shortestDistance = float.MaxValue;
+		for (int i = 0; i < _candidateDirections.Length; i++) {
+			if (_candidateDirections [i].isValid && _candidatePointsDistanceToMainGoal [i] < shortestDistance) {
+				_chosenPathIndex = i;
+				shortestDistance = _candidatePointsDistanceToMainGoal [i];
+			}
+		}
+	}
+
+	private void _TurnShip(){
+		if (_chosenPathIndex != -1) {
+			switch (_chosenPathIndex) {
+			case 0:
+				Debug.Log ("Chosen UP path");
+				transform.Rotate(-TurningSpeed*10*Time.deltaTime, 0.0f, 0.0f);
+				break;
+			case 1:
+				Debug.Log ("Chosen DOWN path");
+				transform.Rotate(TurningSpeed*10*Time.deltaTime, 0.0f, 0.0f);
+				break;
+			case 2:
+				Debug.Log ("Chosen RIGHT path");
+				transform.Rotate(0.0f, TurningSpeed*10*Time.deltaTime, 0.0f);
+				break;
+			case 3:
+				Debug.Log ("Chosen LEFT path");
+				transform.Rotate(0.0f, -TurningSpeed*10*Time.deltaTime, 0.0f);
+				break;
+			}
 		}
 	}
 }
